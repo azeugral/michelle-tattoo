@@ -299,7 +299,7 @@ ul{list-style:none}
   .estilos{min-height:2.7em}
   .hero-lado{gap:6px}
   .hero-titulo{--nome:min(9vw,21vh)}
-  .hero-txt{grid-template-rows:auto auto;gap:0}
+  .hero-txt{grid-template-rows:min(6vw,15vh) auto;gap:0}
   .lado-nome.s{font-size:min(5vw,12vh)}
   .lado-nome.g{font-size:min(3.8vw,9vh)}
   .bt{min-height:42px;padding:0 16px}
