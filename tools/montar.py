@@ -8,15 +8,14 @@ sys.path.insert(0, str(S / 'tools'))
 import dados
 
 def previa(f):
-    i = Image.open(f).convert('RGB').resize((20, 25), Image.LANCZOS)
+    i = Image.open(f).convert('RGB').resize((18, 24), Image.LANCZOS)
     b = io.BytesIO(); i.save(b, 'WEBP', quality=40)
     return 'data:image/webp;base64,' + base64.b64encode(b.getvalue()).decode()
 
 def tile(p):
     f = S / f"assets/img/p/{p['id']}.webp"
     return (f'<button class="peca" type="button" data-id="{p["id"]}" aria-label="Abrir {p["leg"]}">'
-            f'<span class="peca-q" style="background-image:url({previa(f)})"><img src="assets/img/p/{p["id"]}.webp" alt="{p["leg"]}" width="960" height="1200" loading="lazy" draggable="false"></span>'
-            f'<span class="peca-leg">{p["leg"]}</span></button>')
+            f'<span class="peca-q" style="background-image:url({previa(f)})"><img src="assets/img/p/{p["id"]}.webp" alt="{p["leg"]}" width="720" height="960" loading="lazy" draggable="false"></span></button>')
 
 pecas = []
 for lado, g in (('e', dados.DELICADO), ('d', dados.DARK)):
@@ -27,6 +26,6 @@ for lado, g in (('e', dados.DELICADO), ('d', dados.DARK)):
 
 h = (S / 'tools/modelo.html').read_text(encoding='utf8')
 h = h.replace('{{DELICADO}}', ''.join(tile(p) for p in dados.DELICADO)).replace('{{DARK}}', ''.join(tile(p) for p in dados.DARK))
-h = h.replace('{{PECAS}}', json.dumps(pecas, ensure_ascii=False)).replace('{{V}}', '2')
+h = h.replace('{{PECAS}}', json.dumps(pecas, ensure_ascii=False)).replace('{{V}}', '4')
 (S / 'index.html').write_text(h, encoding='utf8')
 print('index.html', round(len(h) / 1024), 'KB')

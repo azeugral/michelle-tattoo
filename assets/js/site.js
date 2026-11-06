@@ -19,15 +19,6 @@
   function montarVert() {
     var vert = hero.clientWidth / hero.clientHeight < .82;
     raiz.classList.toggle('vert', vert);
-    /* em pe, o titulo fica num bloco proprio acima da mascara */
-    $$('.hero-lado').forEach(function (l) {
-      var cab = $('.hero-cab', l);
-      if (!cab) {
-        cab = d.createElement('div'); cab.className = 'hero-cab';
-        cab.appendChild($('.chapeu', l)); cab.appendChild($('.nome', l));
-        l.insertBefore(cab, l.firstChild);
-      }
-    });
     var W = hero.clientWidth, H = hero.clientHeight, m;
     if (usandoVideo) {
       var e = Math.max(W / VW, H / VH), ref = tintaMoldura(VW, VH);
@@ -122,7 +113,7 @@
   $('.topo .bt-orc').addEventListener('click', function () { abreMenu(false); });
 
   /* ---------- revelar do eixo para fora ---------- */
-  var alvos = $$('.peca-q, .reel video, .sobre-foto img');
+  var alvos = $$('.peca-q, .reel video');
   alvos.forEach(function (a) { a.parentNode.classList.add('revela-p'); });
   if (!calmo && 'IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (es) {
@@ -144,13 +135,11 @@
   }
 
   /* ---------- ver mais no celular ---------- */
-  var LIM = 4;
   var verMais = $('#verMais'), abertos = false;
   function limita() {
-    var cel = matchMedia('(max-width:640px)').matches;
-    $$('.col').forEach(function (c) {
-      if (!c.closest('#grade')) return;
-      $$('.peca', c).forEach(function (p, i) { p.hidden = cel && !abertos && i >= LIM; });
+    var lim = matchMedia('(max-width:640px)').matches ? 3 : 6;
+    $$('#grade .col').forEach(function (c) {
+      $$('.peca', c).forEach(function (p, i) { p.hidden = !abertos && i >= lim; });
     });
     /* o sentinela do revelar pode ter sido criado antes: nada fica escondido por ele */
     if (abertos) $$('#grade .revela.fora').forEach(function (p) { p.classList.remove('fora'); });
@@ -158,7 +147,7 @@
   limita();
   addEventListener('resize', limita);
   verMais.addEventListener('click', function () {
-    abertos = !abertos; verMais.textContent = abertos ? 'Ver menos' : 'Ver todos os trabalhos'; limita();
+    abertos = !abertos; verMais.textContent = abertos ? 'Ver menos' : 'Ver todos os 20 trabalhos'; verMais.setAttribute('aria-expanded', String(abertos)); limita();
     if (!abertos) $('#grade').scrollIntoView({ block: 'start' });
   });
 

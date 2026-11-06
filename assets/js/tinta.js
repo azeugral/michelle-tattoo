@@ -45,12 +45,10 @@
     '}'].join('\n');
 
   function moldura(W, H) {
-    var A = 800 / 2140;
-    var h, t;
-    if (W / H < .82) {
-      h = H * .655; t = H * .235;
-      if (h * A > W * .62) { h = W * .62 / A; t = H * .235 + (H * .655 - h) / 2; }
-    } else { h = H * 1.06; t = -H * .06; }
+    var A = 800 / 2140; var h, t;
+    if (W / H < .82) { h = H * .55; t = H * .235;
+      if (h * A > W * .58) { h = W * .58 / A; t = H * .235 + (H * .55 - h) / 2; } }
+    else { t = Math.max(H * .25, 150); h = H * 1.02 - t; }
     return { top: t, h: h, w: h * A };
   }
 

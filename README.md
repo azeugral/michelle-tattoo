@@ -7,19 +7,19 @@ Publicado em https://azeugral.github.io/michelle-tattoo/ com `noindex`.
 
 Dois lados. As hashtags dela são `#tatuagemdark` e `#tatuagemdelicadas`, e a máscara partida por uma katana (post de 12/10) é a mesma ideia tatuada. O eixo da lâmina atravessa o site: papel à esquerda (delicado), preto à direita (dark).
 
-- Nome partido: `Mich` em Mrs Saint Delafield (as frases finas dela) + `elle` em Manufacturing Consent (a gótica dos nomes dela). Corpo em Rethink Sans.
+- Nome inteiro em Manufacturing Consent (a gótica dos nomes dela), trocando de cor no eixo. `Delicado` em Mrs Saint Delafield (as frases finas dela). Corpo em Rethink Sans.
 - Todo título da página atravessa o eixo: Delicado | Dark, Antes | Depois, Veja | de perto.
 - Hero: tinta real da foto, positivo sobre papel e negativo sobre preto. Abre espelhada do centro (2,8 s) e segue em laço de 14 s. WebGL no computador, MP4 no celular em pé, shader de reserva no Modo de Pouca Energia, pôster se não houver WebGL.
-- Portfólio: 10 peças de cada lado, grade 4:5, corpo recortado e assentado no chão do lado. A foto original aparece ao abrir a peça.
-- Sem logo: o `Mich|elle` faz esse papel até ela ter uma.
+- Portfólio: 10 peças de cada lado, foto real sem recorte em 3:4, só com o tom igualado. Abre com 6 + 6 no computador e 3 + 3 no celular; o resto fica em "Ver todos". A legenda aparece ao abrir a peça.
+- Michelle: cartão pequeno no eixo, logo depois do portfólio, com a história de um lado e o orçamento do outro. O antes e depois usa o mesmo formato.
+- Sem logo: o nome em gótica faz esse papel até ela ter uma.
 
 ## Editar
 
 | O quê | Onde | Depois rodar |
 | --- | --- | --- |
 | Textos e seções | `tools/modelo.html` | `python tools/montar.py` |
-| Peças, legendas e recortes | `tools/dados.py` | `python tools/processar.py <id>` e `montar.py` |
-| Contorno à mão de uma foto | `POLI` em `tools/processar.py` | apagar `_ref/mascaras/<arq>.png` e processar |
+| Peças, legendas e enquadramento | `tools/dados.py` | `python tools/processar.py <id>` e `montar.py` |
 | Arte do hero | `tools/tinta_hero.py`, `tools/textura.py` | `python tools/gerar_video.py` |
 | Posição da arte | `moldura()` em `assets/js/tinta.js` | `python tools/gerar_video.py` (o MP4 usa a mesma função) |
 | Capa de link e favicon | `tools/marca.py` | `python tools/marca.py` |

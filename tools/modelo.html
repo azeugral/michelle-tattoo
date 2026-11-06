@@ -31,12 +31,12 @@
 <header class="topo" id="topo-bar">
   <nav class="nav-l" aria-label="Principal, esquerda">
     <a href="#trabalhos">Trabalhos</a>
-    <a href="#reforma">Reforma</a>
-    <a href="#perto">De perto</a>
-  </nav>
-  <a class="marca" href="#inicio" aria-label="Michelle Tattoo, início"><span class="s">Mich</span><span class="g">elle</span></a>
-  <nav class="nav-d" aria-label="Principal, direita">
     <a href="#sobre">Sobre</a>
+    <a href="#reforma">Reforma</a>
+  </nav>
+  <a class="marca" href="#inicio" aria-label="Michelle Tattoo, início"><span>Michelle</span></a>
+  <nav class="nav-d" aria-label="Principal, direita">
+    <a href="#perto">De perto</a>
     <a href="#onde">Onde</a>
     <a class="nav-bt" href="#orcamento">Orçamento</a>
   </nav>
@@ -47,11 +47,11 @@
 <div class="menu" id="menu" hidden>
   <nav class="menu-l" aria-label="Menu, delicado">
     <a href="#trabalhos">Trabalhos</a>
+    <a href="#sobre">Sobre</a>
     <a href="#reforma">Reforma</a>
-    <a href="#perto">De perto</a>
   </nav>
   <nav class="menu-d" aria-label="Menu, dark">
-    <a href="#sobre">Sobre</a>
+    <a href="#perto">De perto</a>
     <a href="#orcamento">Orçamento</a>
     <a href="#onde">Onde</a>
   </nav>
@@ -62,17 +62,22 @@
   <div class="hero-fundo" id="heroFundo" aria-hidden="true">
     <img class="hero-poster" id="heroPoster" alt="" hidden>
   </div>
-  <h1 class="sr">Michelle, tatuadora em Nova Resende, MG</h1>
+  <div class="hero-titulo">
+    <h1 class="hero-nome" aria-label="Michelle, tatuadora em Nova Resende, MG">Michelle</h1>
+    <p class="hero-sub"><span>Tatuadora</span><span>Nova Resende, MG</span></p>
+  </div>
   <div class="hero-lado he">
-    <p class="chapeu">Tatuadora</p>
-    <p class="nome s" aria-hidden="true">Mich</p>
-    <p class="estilos">Fine line, floral, frases, homenagens</p>
+    <div class="hero-txt">
+      <p class="lado-nome s">Delicado</p>
+      <p class="estilos">Fine line, floral, frases, homenagens</p>
+    </div>
     <a class="bt bt-tinta" href="#trabalhos">Ver trabalhos</a>
   </div>
   <div class="hero-lado hd">
-    <p class="chapeu">Nova Resende, MG</p>
-    <p class="nome g" aria-hidden="true">elle</p>
-    <p class="estilos">Dark, blackwork, semi realismo, reforma</p>
+    <div class="hero-txt">
+      <p class="lado-nome g">Dark</p>
+      <p class="estilos">Blackwork, semi realismo, gótica, reforma</p>
+    </div>
     <a class="bt bt-osso" href="#orcamento">Pedir orçamento</a>
   </div>
 </section>
@@ -84,19 +89,44 @@
     <div class="col col-e">{{DELICADO}}</div>
     <div class="col col-d">{{DARK}}</div>
   </div>
-  <div class="ver-mais"><button class="bt bt-osso" id="verMais" type="button">Ver todos os trabalhos</button></div>
+  <div class="ver-mais"><button class="bt bt-rub" id="verMais" type="button" aria-expanded="false">Ver todos os 20 trabalhos</button></div>
+</section>
+
+<section class="sec" id="sobre" aria-label="Quem é a Michelle">
+  <div class="sobre">
+    <div class="sobre-txt sobre-e">
+      <p>Michelle tatua em Nova Resende, no sul de Minas. No mesmo perfil cabem as digitais de um recém-nascido e uma máscara partida por uma katana.</p>
+    </div>
+    <figure class="carta">
+      <div class="carta-q">
+        <img src="assets/img/michelle.webp" alt="Michelle tatuando, de luvas pretas, em foto preto e branco" width="640" height="800" loading="lazy">
+      </div>
+      <figcaption><h2 class="g">Michelle</h2><span>Tatuadora</span></figcaption>
+    </figure>
+    <div class="sobre-txt sobre-d">
+      <p>A peça decide o traço. Você manda a ideia, o lugar do corpo e o tamanho, e ela responde direto pelo WhatsApp.</p>
+      <a class="bt bt-osso bt-sobre" href="#orcamento">Pedir orçamento</a>
+    </div>
+  </div>
 </section>
 
 <section class="sec" id="reforma" aria-labelledby="tRef">
   <h2 class="tit" id="tRef"><span class="s">Antes</span><span class="g">Depois</span></h2>
-  <p class="sub"><span>Um rosto antigo, de traço fino, já desbotado pelo tempo.</span><span>O mesmo rosto refeito: cabelo, sombra e olhar. O tribal de baixo entrou na peça.</span></p>
-  <div class="comp" id="comp" style="--p:50%">
-    <img class="comp-d" src="assets/img/depois.webp" alt="Depois da reforma: rosto feminino em sombra pesada com cabelo volumoso" width="900" height="1500" loading="lazy" draggable="false">
-    <div class="comp-a"><img src="assets/img/antes.webp" alt="Antes da reforma: rosto feminino em traço fino e desbotado" width="900" height="1500" loading="lazy" draggable="false"></div>
-    <div class="comp-linha" aria-hidden="true"><i></i></div>
-    <input id="compR" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois da reforma">
+  <div class="sobre ref">
+    <div class="sobre-txt sobre-e">
+      <p>Um rosto antigo, de traço fino, já desbotado pelo tempo. Arraste a linha para comparar.</p>
+    </div>
+    <div class="comp" id="comp" style="--p:50%">
+      <img class="comp-d" src="assets/img/depois.webp" alt="Depois da reforma: rosto feminino em sombra pesada com cabelo volumoso" width="900" height="1500" loading="lazy" draggable="false">
+      <div class="comp-a"><img src="assets/img/antes.webp" alt="Antes da reforma: rosto feminino em traço fino e desbotado" width="900" height="1500" loading="lazy" draggable="false"></div>
+      <div class="comp-linha" aria-hidden="true"><i></i></div>
+      <input id="compR" type="range" min="0" max="100" value="50" aria-label="Arraste para comparar antes e depois da reforma">
+    </div>
+    <div class="sobre-txt sobre-d">
+      <p>O mesmo rosto refeito: cabelo, sombra e olhar. Tem uma tatuagem que não representa mais você? Mande uma foto dela.</p>
+      <a class="bt bt-osso bt-sobre" href="#orcamento" data-lado="Reforma">Orçar reforma</a>
+    </div>
   </div>
-  <div class="ref-cta"><p>Tem uma tatuagem que não representa mais você? Mande uma foto dela.</p><a class="bt bt-osso" href="#orcamento" data-lado="Reforma">Pedir orçamento de reforma</a></div>
 </section>
 
 <section class="sec" id="perto" aria-labelledby="tPerto">
@@ -109,19 +139,6 @@
     <div class="col col-d">
       <figure class="reel"><video data-src="assets/video/hannya.mp4" poster="assets/img/hannya-p.jpg" muted loop playsinline preload="none" aria-label="Vídeo da máscara partida na panturrilha"></video><figcaption>Máscara partida</figcaption></figure>
       <figure class="reel"><video data-src="assets/video/gueixa.mp4" poster="assets/img/gueixa-p.jpg" muted loop playsinline preload="none" aria-label="Vídeo da gueixa com hannya na perna"></video><figcaption>Gueixa e hannya</figcaption></figure>
-    </div>
-  </div>
-</section>
-
-<section class="sec" id="sobre" aria-labelledby="tSobre">
-  <div class="par sobre">
-    <div class="sobre-txt">
-      <h2 class="tit-s s" id="tSobre">Michelle</h2>
-      <p>Michelle tatua em Nova Resende, no sul de Minas. No mesmo perfil cabem as digitais de um recém-nascido e uma máscara partida por uma katana, e é assim que ela trabalha: a peça decide o traço.</p>
-      <p>Você manda a ideia, o lugar do corpo e o tamanho. Ela responde direto pelo WhatsApp, sem intermediário.</p>
-    </div>
-    <div class="sobre-foto">
-      <img src="assets/img/michelle.webp" alt="Michelle tatuando, de luvas pretas, em foto preto e branco" width="1080" height="1080" loading="lazy">
     </div>
   </div>
 </section>

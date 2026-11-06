@@ -23,25 +23,30 @@ JS = r"""
   });
   // titulos em dois lados: cada metade nao pode cruzar o eixo
   const eixo = W / 2;
-  document.querySelectorAll('.tit .s,.hero-lado.he .nome').forEach(e => { const g = medeTexto(e); if (g.right > eixo + .5) out.push('EIXO esq "' + e.textContent + '" ' + (g.right - eixo).toFixed(1)); if (g.left < 0) out.push('BORDA esq "' + e.textContent + '" ' + g.left.toFixed(1)); });
-  document.querySelectorAll('.tit .g,.hero-lado.hd .nome').forEach(e => { const g = medeTexto(e); if (g.left < eixo - .5) out.push('EIXO dir "' + e.textContent + '"'); if (g.right > W) out.push('BORDA dir "' + e.textContent + '" ' + (g.right - W).toFixed(1)); });
+  document.querySelectorAll('.tit .s').forEach(e => { const g = medeTexto(e); if (g.right > eixo + .5) out.push('EIXO esq "' + e.textContent + '" ' + (g.right - eixo).toFixed(1)); if (g.left < 0) out.push('BORDA esq "' + e.textContent + '" ' + g.left.toFixed(1)); });
+  document.querySelectorAll('.tit .g').forEach(e => { const g = medeTexto(e); if (g.left < eixo - .5) out.push('EIXO dir "' + e.textContent + '"'); if (g.right > W) out.push('BORDA dir "' + e.textContent + '" ' + (g.right - W).toFixed(1)); });
   function medeTexto(e) { const r = document.createRange(); r.selectNodeContents(e); const b = r.getBoundingClientRect(); return b; }
   // colunas espelhadas
   const ce = [...document.querySelectorAll('#grade .col-e .peca:not([hidden])')], cd = [...document.querySelectorAll('#grade .col-d .peca:not([hidden])')];
   if (ce.length !== cd.length) out.push('PARES ' + ce.length + ' x ' + cd.length);
   ce.forEach((a, i) => { const b = cd[i]; if (!b) return; const ra = a.querySelector('.peca-q').getBoundingClientRect(), rb = b.querySelector('.peca-q').getBoundingClientRect();
     if (Math.abs(ra.width - rb.width) > 1 || Math.abs(ra.height - rb.height) > 1 || Math.abs(ra.top - rb.top) > 1) out.push('SIMETRIA peca ' + i);
-    if (Math.abs((eixo - ra.right) - (rb.left - eixo)) > 40 && i % (ce.length > 4 ? 2 : 1) === 0 && innerWidth <= 640) out.push('MIOLO ' + i); });
+    });
   // hero cabe na tela
   const h = document.querySelector('.hero').getBoundingClientRect(), bts = [...document.querySelectorAll('.hero-lado .bt')].map(b => b.getBoundingClientRect());
   bts.forEach(b => { if (b.bottom > h.bottom - 2) out.push('HERO botao cortado'); });
   if (Math.abs(bts[0].top - bts[1].top) > 1 || Math.abs(bts[0].width - bts[1].width) > 1) out.push('HERO botoes desiguais ' + bts.map(b => Math.round(b.top) + '/' + Math.round(b.width)));
-  const ns = [...document.querySelectorAll('.hero-lado .nome')].map(e => e.getBoundingClientRect());
-  ns.forEach(n => { if (n.top < 0) out.push('HERO nome sob topo'); });
-  const ch = [...document.querySelectorAll('.hero-lado .chapeu')].map(b => b.getBoundingClientRect());
-  if (Math.abs(ch[0].top - ch[1].top) > 1) out.push('HERO chapeu desalinhado');
+  const nm = document.querySelector('.hero-nome').getBoundingClientRect(), sb = document.querySelector('.hero-sub').getBoundingClientRect();
   const barra = document.querySelector('.topo').getBoundingClientRect().bottom;
-  ch.forEach(c => { if (c.top < barra) out.push('HERO chapeu sob a barra ' + Math.round(c.top)); });
+  if (Math.abs((nm.left + nm.right) / 2 - W / 2) > 1) out.push('HERO nome fora do eixo');
+  if (nm.left < 0 || nm.right > W) out.push('HERO nome cortado ' + Math.round(nm.left) + '-' + Math.round(nm.right));
+  if (nm.top < barra - 1) out.push('HERO nome sob a barra');
+  const ar = parseFloat(getComputedStyle(document.querySelector('.hero')).getPropertyValue('--art-topo'));
+  if (sb.bottom > ar + 30) out.push('HERO titulo sobre a arte ' + Math.round(sb.bottom) + ' > ' + ar);
+  const tx = [...document.querySelectorAll('.hero-txt')].map(e => e.getBoundingClientRect());
+  if (Math.abs(tx[0].top - tx[1].top) > 12) out.push('HERO textos desalinhados');
+  const ca = document.querySelector('.carta').getBoundingClientRect();
+  if (Math.abs((ca.left + ca.right) / 2 - W / 2) > 1.5) out.push('CARTA fora do eixo');
   return [...new Set(out)];
 }
 """
@@ -67,6 +72,7 @@ with sync_playwright() as p:
     c = b.new_context(viewport={'width': 1440, 'height': 900}); g = c.new_page()
     g.goto(URL); g.wait_for_timeout(1500)
     ok('canvas do hero', g.evaluate("!!document.querySelector('#heroFundo canvas')"))
+    ok('6 + 6 de cara', g.evaluate("[...document.querySelectorAll('.peca')].filter(p=>!p.hidden).length") == 12)
     g.evaluate("document.querySelector('.peca[data-id=hannya]').scrollIntoView({block:'center',behavior:'instant'})"); g.wait_for_timeout(600)
     g.click('.peca[data-id=hannya]'); g.wait_for_timeout(500)
     ok('lightbox abre', not g.evaluate("document.querySelector('#lb').hidden"))
@@ -90,7 +96,7 @@ with sync_playwright() as p:
     bx = g.locator('#comp').bounding_box()
     g.mouse.click(bx['x'] + bx['width'] * .8, bx['y'] + 100); g.wait_for_timeout(150)
     ok('comparador', g.evaluate("parseInt(document.querySelector('#comp').style.getPropertyValue('--p'))") > 70)
-    g.click('#reforma .ref-cta .bt'); g.wait_for_timeout(1000)
+    g.click('#reforma .bt-sobre'); g.wait_for_timeout(1000)
     ok('reforma marca lado', g.evaluate("document.querySelector('#fLado [aria-pressed=true]').textContent") == 'Reforma')
     g.evaluate("document.querySelector('#perto').scrollIntoView({block:'center',behavior:'instant'})"); g.wait_for_timeout(1500)
     ok('reels tocam', g.evaluate("[...document.querySelectorAll('.reel video')].filter(v=>!v.paused).length") >= 2)
@@ -104,10 +110,10 @@ with sync_playwright() as p:
     n0 = g.evaluate("[...document.querySelectorAll('.peca')].filter(p=>!p.hidden).length")
     g.evaluate("document.querySelector('#verMais').scrollIntoView({block:'center',behavior:'instant'})"); g.wait_for_timeout(200); g.tap('#verMais'); g.wait_for_timeout(300)
     n1 = g.evaluate("[...document.querySelectorAll('.peca')].filter(p=>!p.hidden).length")
-    ok('ver todos', n0 == 8 and n1 == 20, f'{n0}->{n1}')
+    ok('ver todos', n0 == 6 and n1 == 20, f'{n0}->{n1}')
     g.evaluate("window.scrollTo({top:0,behavior:'instant'})"); g.tap('#btMenu'); g.wait_for_timeout(200)
     ok('menu abre', not g.evaluate("document.querySelector('#menu').hidden"))
-    g.tap('.menu-d a[href="#sobre"]'); g.wait_for_timeout(1000)
+    g.tap('.menu-l a[href="#sobre"]'); g.wait_for_timeout(1000)
     ok('menu fecha e rola', g.evaluate("document.querySelector('#menu').hidden && scrollY>500"))
     print('FUNCIONAL', sum(R), '/', len(R))
     b.close()
