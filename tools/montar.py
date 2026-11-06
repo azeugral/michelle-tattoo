@@ -27,6 +27,6 @@ for lado, g in (('e', dados.DELICADO), ('d', dados.DARK)):
 
 h = (S / 'tools/modelo.html').read_text(encoding='utf8')
 h = h.replace('{{DELICADO}}', ''.join(tile(p) for p in dados.DELICADO)).replace('{{DARK}}', ''.join(tile(p) for p in dados.DARK))
-h = h.replace('{{PECAS}}', json.dumps(pecas, ensure_ascii=False)).replace('{{V}}', '1')
+h = h.replace('{{PECAS}}', json.dumps(pecas, ensure_ascii=False)).replace('{{V}}', '2')
 (S / 'index.html').write_text(h, encoding='utf8')
 print('index.html', round(len(h) / 1024), 'KB')
